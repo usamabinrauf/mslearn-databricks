@@ -3,7 +3,7 @@ write-host "Starting script at $(Get-Date)"
 
 # Generate unique random suffix
 [string]$suffix =  -join ((48..57) + (97..122) | Get-Random -Count 7 | % {[char]$_})
-$resourceGroupName = "msl-$suffix"
+$resourceGroupName = "dp3011-$suffix"
 
 # Handle cases where the user has multiple subscriptions
 $subs = Get-AzSubscription | Select-Object
@@ -123,7 +123,7 @@ while ($stop -ne 1){
         New-AzResourceGroup -Name $resourceGroupName -Location $Region | Out-Null
         $dbworkspace = "databricks-$suffix"
         Write-Host "Creating $dbworkspace Azure Databricks workspace in $resourceGroupName resource group..."
-        New-AzDatabricksWorkspace -Name $dbworkspace -ResourceGroupName $resourceGroupName -Location $Region -Sku premium | Out-Null
+        New-AzDatabricksWorkspace -Name $dbworkspace -ResourceGroupName $resourceGroupName -Location $Region -Sku trial | Out-Null
         # Make the current user an owner of the databricks workspace
         write-host "Granting permissions on the $dbworkspace resource..."
         write-host "(you can ignore any warnings!)"
